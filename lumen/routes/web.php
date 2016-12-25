@@ -11,6 +11,12 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+$app->group(array(), function() use ($app)
+{
+	// RFID keys
+	$app->   get("rfid",      "Rfid@list");   // Get collection
+	$app->  post("rfid",      "Rfid@create"); // Model: Create
+	$app->   get("rfid/{id}", "Rfid@read");   // Model: Read
+	$app->   put("rfid/{id}", "Rfid@update"); // Model: Update
+	$app->delete("rfid/{id}", "Rfid@delete"); // Model: Delete
 });
