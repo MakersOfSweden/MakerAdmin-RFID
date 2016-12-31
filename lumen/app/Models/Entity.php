@@ -177,6 +177,13 @@ class Entity
 					}
 					unset($filters[$id]);
 				}
+				// Filter on transaction_id's
+				else if("ids" == $id)
+				{
+					$query = $query
+					->whereIn($this->columns[$this->id_column]["column"], $filter);
+					unset($filters[$id]);
+				}
 				// Filter on arbritrary columns
 				else
 				{
