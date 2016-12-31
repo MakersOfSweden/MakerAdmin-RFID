@@ -25,11 +25,11 @@ class Rfid extends Controller
 	/**
 	 *
 	 */
-	public function read(Request $request, $rfid_id)
+	public function read(Request $request, $key_id)
 	{
 		// Load the entity
 		$entity = RfidModel::load([
-			"rfid_id" => $rfid_id
+			"key_id" => $key_id
 		]);
 
 		// Generate an error if there is no such rfid entity
@@ -37,7 +37,7 @@ class Rfid extends Controller
 		{
 			return Response()->json([
 				"status"  => "error",
-				"message" => "Could not find any entity with specified rfid_id",
+				"message" => "Could not find any entity with specified key_id",
 			], 404);
 		}
 		else
@@ -57,6 +57,7 @@ class Rfid extends Controller
 
 		// Create new RFID entity
 		$entity = new RfidModel;
+		$entity->title       = $json["title"] ?? null;
 		$entity->description = $json["description"] ?? null;
 		$entity->tagid       = $json["tagid"]       ?? null;
 		$entity->status      = $json["status"]      ?? "inactive";
@@ -79,18 +80,18 @@ class Rfid extends Controller
 	/**
 	 *
 	 */
-	public function update(Request $request, $rfid_id)
+	public function update(Request $request, $key_id)
 	{
 		// Load the entity
 		$entity = RfidModel::load([
-			"rfid_id" => $rfid_id
+			"key_id" => $key_id
 		]);
 
 		// Generate an error if there is no such rfid entity
 		if(false === $entity)
 		{
 			return Response()->json([
-				"message" => "Could not find any entity with specified rfid_id",
+				"message" => "Could not find any entity with specified key_id",
 			], 404);
 		}
 
@@ -118,11 +119,11 @@ class Rfid extends Controller
 	/**
 	 *
 	 */
-	public function delete(Request $request, $rfid_id)
+	public function delete(Request $request, $key_id)
 	{
 		// Load the entity
 		$entity = RfidModel::load([
-			"rfid_id" => $rfid_id
+			"key_id" => $key_id
 		]);
 
 		// Generate an error if there is no such rfid entity
@@ -130,7 +131,7 @@ class Rfid extends Controller
 		{
 			return Response()->json([
 				"status"  => "error",
-				"message" => "Could not find any entity with specified rfid_id",
+				"message" => "Could not find any entity with specified key_id",
 			], 404);
 		}
 

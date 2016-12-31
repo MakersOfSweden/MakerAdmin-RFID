@@ -12,10 +12,10 @@ class Rfid extends Entity
 {
 	protected $type = "rfid";
 	protected $table = "rfid";
-	protected $id_column = "rfid_id";
-	protected $deletable = false;
+	protected $id_column = "key_id";
+	protected $deletable = true;
 	protected $columns = [
-		"rfid_id" => [
+		"key_id" => [
 			"column" => "rfid.rfid_id",
 			"select" => "rfid.rfid_id",
 		],
@@ -26,6 +26,10 @@ class Rfid extends Entity
 		"updated_at" => [
 			"column" => "rfid.updated_at",
 			"select" => "DATE_FORMAT(rfid.updated_at, '%Y-%m-%dT%H:%i:%sZ')",
+		],
+		"title" => [
+			"column" => "rfid.title",
+			"select" => "rfid.title",
 		],
 		"description" => [
 			"column" => "rfid.description",

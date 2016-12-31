@@ -1,8 +1,8 @@
 <?php
 
 return [
-	'name'    => 'RFID service',
+	'name'    => 'RFID key service',
 	'version' => '1.0',
-	'url'     => 'rfid',
+	'url'     => 'keys',
 	'gateway' => getenv('APIGATEWAY'),
 ];
