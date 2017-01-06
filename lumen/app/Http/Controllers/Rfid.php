@@ -3,49 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-
-use App\Models\Rfid as RfidModel;
-
-use App\Traits\Pagination;
 use App\Traits\EntityStandardFiltering;
 
 class Rfid extends Controller
 {
-	use Pagination, EntityStandardFiltering;
+	use EntityStandardFiltering;
 
 	/**
 	 *
 	 */
 	public function list(Request $request)
 	{
-		return $this->_applyStandardFilters("Rfid", $request);
-	}
-
-	/**
-	 *
-	 */
-	public function read(Request $request, $key_id)
-	{
-		// Load the entity
-		$entity = RfidModel::load([
-			"key_id" => $key_id
-		]);
-
-		// Generate an error if there is no such rfid entity
-		if(false === $entity)
-		{
-			return Response()->json([
-				"status"  => "error",
-				"message" => "Could not find any entity with specified key_id",
-			], 404);
-		}
-		else
-		{
-			return Response()->json([
-				"data" => $entity->toArray(),
-			], 200);
-		}
+		$params = $request->query->all();
+		return $this->_list("Rfid", $params);
 	}
 
 	/**
@@ -53,28 +23,22 @@ class Rfid extends Controller
 	 */
 	public function create(Request $request)
 	{
-		$json = $request->json()->all();
+		$data = $request->json()->all();
 
-		// Create new RFID entity
-		$entity = new RfidModel;
-		$entity->title       = $json["title"] ?? null;
-		$entity->description = $json["description"] ?? null;
-		$entity->tagid       = $json["tagid"]       ?? null;
-		$entity->status      = $json["status"]      ?? "inactive";
-		$entity->startdate   = $json["startdate"]   ?? null;
-		$entity->enddate     = $json["enddate"]     ?? null;
+		// Default values
+		$data["status"] = $data["status"] ?? "inactive";
 
-		// Validate input
-		$entity->validate();
+		return $this->_create("Rfid", $data);
+	}
 
-		// Save entity
-		$entity->save();
-
-		// Send response to client
-		return Response()->json([
-			"status" => "created",
-			"data" => $entity->toArray(),
-		], 201);
+	/**
+	 *
+	 */
+	public function read(Request $request, $key_id)
+	{
+		return $this->_read("Rfid", [
+			"key_id" => $key_id
+		]);
 	}
 
 	/**
@@ -82,38 +46,10 @@ class Rfid extends Controller
 	 */
 	public function update(Request $request, $key_id)
 	{
-		// Load the entity
-		$entity = RfidModel::load([
+		$data = $request->json()->all();
+		return $this->_update("Rfid", [
 			"key_id" => $key_id
-		]);
-
-		// Generate an error if there is no such rfid entity
-		if(false === $entity)
-		{
-			return Response()->json([
-				"message" => "Could not find any entity with specified key_id",
-			], 404);
-		}
-
-		$json = $request->json()->all();
-
-		// Populate the entity with new values
-		foreach($json as $key => $value)
-		{
-			$entity->{$key} = $value ?? null;
-		}
-
-		// Validate input
-		$entity->validate();
-
-		// Save the entity
-		$entity->save();
-
-		// Send response to client
-		return Response()->json([
-			"status" => "updated",
-			"data" => $entity->toArray(),
-		], 200);
+		], $data);
 	}
 
 	/**
@@ -121,33 +57,8 @@ class Rfid extends Controller
 	 */
 	public function delete(Request $request, $key_id)
 	{
-		// Load the entity
-		$entity = RfidModel::load([
+		return $this->_delete("Rfid", [
 			"key_id" => $key_id
 		]);
-
-		// Generate an error if there is no such rfid entity
-		if(false === $entity)
-		{
-			return Response()->json([
-				"status"  => "error",
-				"message" => "Could not find any entity with specified key_id",
-			], 404);
-		}
-
-		if($entity->delete())
-		{
-			return Response()->json([
-				"status"  => "deleted",
-				"message" => "The rfid entity was successfully deleted",
-			], 200);
-		}
-		else
-		{
-			return Response()->json([
-				"status"  => "error",
-				"message" => "An error occured when trying to delete rfid entity",
-			], 500);
-		}
 	}
 }

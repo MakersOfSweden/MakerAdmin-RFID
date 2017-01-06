@@ -17,7 +17,7 @@ class CreateRfidTable extends Migration
 		{
 			$table->increments("rfid_id");
 			$table->string("title");
-			$table->text("description");
+			$table->text("description")->nullable();
 			$table->string("tagid");
 			$table->string("status");
 
@@ -25,7 +25,7 @@ class CreateRfidTable extends Migration
 			$table->dateTimeTz("enddate")->nullable();
 
 			$table->dateTimeTz("created_at")->default(DB::raw("CURRENT_TIMESTAMP"));
-			$table->dateTimeTz("updated_at")->default(DB::raw("CURRENT_TIMESTAMP"));
+			$table->dateTimeTz("updated_at")->nullable();
 			$table->dateTimeTz("deleted_at")->nullable();
 
 			$table->index("tagid");

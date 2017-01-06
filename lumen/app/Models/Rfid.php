@@ -66,7 +66,7 @@ class Rfid extends Entity
 				// Build the search query
 				$query
 					->  where("rfid.title",       "like", "%".$word."%")
-					->  where("rfid.description", "like", "%".$word."%")
+					->orWhere("rfid.description", "like", "%".$word."%")
 					->orWhere("rfid.tagid",       "like", "%".$word."%");
 			});
 		}
