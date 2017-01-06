@@ -1,0 +1,3 @@
+CONTAINER_NAME=makeradmin-rfid
+CONTAINER_TAG=makeradmin/rfid
+CONTAINER_VERSION=1.0
