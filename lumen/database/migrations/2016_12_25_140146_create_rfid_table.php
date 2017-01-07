@@ -16,7 +16,7 @@ class CreateRfidTable extends Migration
 		Schema::create("rfid", function (Blueprint $table)
 		{
 			$table->increments("rfid_id");
-			$table->string("title");
+			$table->string("title")->nullable();
 			$table->text("description")->nullable();
 			$table->string("tagid");
 			$table->string("status");
